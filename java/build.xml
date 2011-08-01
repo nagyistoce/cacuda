@@ -1,0 +1,13 @@
+<project default="jar">
+	<target name="jar" depends="build-src">
+		<jar jarfile="cclcacuda.jar" basedir="bin" />
+	</target>
+    <target name="build-src">
+        <mkdir dir="bin"/>
+        <javac srcdir="src" destdir="bin">
+            <classpath>
+                <pathelement path="piraha_v38.jar"/>
+            </classpath>
+        </javac>
+    </target>
+</project>
