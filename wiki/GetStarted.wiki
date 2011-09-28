@@ -28,17 +28,23 @@ CactusCaCUDA
 
 = Compile =
 
-The command line to start compiling is:
+The command line to start your first compilation is:
 {{{
 $make cacuda-config options=manifest/gnu_options THORNLIST=manifest/ThornList PROMPT=no
 }}}
 
 You may want to speed up the compilation with "-j" option:
 {{{
-$make -j 4 cacuda-config options=manifest/gnu_options THORNLIST=manifest/ThornList PROMPT=no
+$make -j 8 cacuda-config options=manifest/gnu_options THORNLIST=manifest/ThornList PROMPT=no
 }}}
 
 The command above create an executable 
 {{{
 CactusCaCUDA/exe/cactus_cacuda
 }}}
+
+After the first successful compilation, you can simply run
+{{{
+$make cacuda-rebuild
+}}}
+to generate the CUDA code and compile hereafter.
