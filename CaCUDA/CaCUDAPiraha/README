@@ -1,0 +1,14 @@
+Cactus Code Thorn CaCUDAPiraha
+Author(s)    : Steve R. Brandt <sbrandt@cct.lsu.edu>
+                    : Jian Tao <jtao@cct.lsu.edu>
+                    : Marek Blazewicz <marqs@man.poznan.pl>
+Maintainer(s): Steve R. Brandt <sbrandt@cct.lsu.edu>
+                    : Jian Tao <jtao@cct.lsu.edu>
+                    : Marek Blazewicz <marqs@man.poznan.pl>
+Licence      : GPL
+--------------------------------------------------------------------------
+
+1. Purpose
+
+A Piraha based parser for Cactus Configuraiton Language to support
+GPGPU programming.

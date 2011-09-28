@@ -1,0 +1,3 @@
+# Configuration definitions for thorn CaCUDACFD3D
+REQUIRES CaCUDALib
+REQUIRES CaCUDAPiraha

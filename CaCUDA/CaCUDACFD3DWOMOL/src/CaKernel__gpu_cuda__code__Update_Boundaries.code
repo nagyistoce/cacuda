@@ -1,0 +1,56 @@
+
+CAKERNEL_Update_Boundaries_Begin                                         
+ CCTK_REAL vx_new = 0, 
+            vy_new = 0,
+            vz_new = 0;
+  
+  if(!x && !(y > 0)) 
+    if (gj && gj < params.cagh_nj - 1 &&
+        gk && gk < params.cagh_nk - 1)  
+    	vx_new = -I3D(vx, -x, -y, -z);
+  if(!y)       
+    if (gi && gi < params.cagh_ni - 1 &&
+        gk && gk < params.cagh_nk - 1)  
+      vy_new = -I3D(vy, -x, -y, -z);
+  if(!z) 
+    if (gi && gi < params.cagh_ni - 1 &&
+        gj && gj < params.cagh_nj - 1)  
+      vz_new = -I3D(vz, -x, -y, -z);
+
+  // Lid-driven cavity condition
+  if(y > 0)
+    if (gi && gi < params.cagh_ni - 1 &&
+        gk && gk < params.cagh_nk - 1)  
+      vx_new = 2.0f - I3D(vx, -x, -y, -z);
+  
+
+  I3D(vx, 0, 0, 0) = vx_new;
+  I3D(vy, 0, 0, 0) = vy_new;
+  I3D(vz, 0, 0, 0) = vz_new;
+
+//  Staggered grid specific condition
+  if(x > 0) I3D(vx, -x, -y, -z) = 0;
+  if(y > 0) I3D(vy, -x, -y, -z) = 0;
+  if(z > 0) I3D(vz, -x, -y, -z) = 0;
+                                                                      
+CAKERNEL_Update_Boundaries_End                              	    	     
+
+
+
+//CAKERNEL_Update_Boundaries_Declare_Begin_s                                       
+//  CAKERNEL_Update_Boundaries_Declare_Cached_Variables_s                          
+//  CAKERNEL_Update_Boundaries_Declare_Flow_Variables_s                            
+//  CAKERNEL_Update_Boundaries_Limit_Threads_To_LSH_Begin_s                        
+//    CAKERNEL_Update_Boundaries_Fetch_Data_To_Cache_s                             
+//
+//
+//    CAKERNEL_Update_Boundaries_Computations_Begin_s                              
+//      CAKERNEL_Update_Boundaries_Iterate_Local_Tile_s                            
+//      CAKERNEL_Update_Boundaries_Fetch_Front_Tile_To_Cache_s                     
+//        CAKERNEL_Update_Boundaries_Limit_Threads_To_Compute_Begin_s                
+//
+//        CAKERNEL_Update_Boundaries_Limit_Threads_To_Compute_End_s                  
+//    CAKERNEL_Update_Boundaries_Computations_End_s                                
+//  CAKERNEL_Update_Boundaries_Limit_Threads_To_LSH_End_s                   
+//
+//CAKERNEL_Update_Boundaries_Declare_End_s

@@ -1,0 +1,6 @@
+# Configuration definitions for thorn CaCUDALib
+PROVIDES CaCUDALib
+{
+  SCRIPT
+  LANG
+}

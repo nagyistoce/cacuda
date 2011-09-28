@@ -1,0 +1,4 @@
+PROVIDES CaCUDAPiraha
+{
+  OPTIONS                                    JAVA                                     JAVAC
+}

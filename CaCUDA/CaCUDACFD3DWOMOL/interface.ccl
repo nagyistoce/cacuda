@@ -1,0 +1,17 @@
+# Interface definition for thorn CaCUDACFD3DWOMOL
+implements: cacudacfd3dwomol
+inherits:
+
+public:
+cctk_real velocity type=gf timelevels=1
+{
+  vx, vy, vz
+} "velocity u^i"
+
+cctk_real pressure type=gf timelevels=1
+{
+  p
+} "pressure p"
+
+private:
+cctk_int psolver_step type=scalar timelevels=1

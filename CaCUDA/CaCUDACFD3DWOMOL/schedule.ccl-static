@@ -1,0 +1,92 @@
+# Schedule definitions for thorn CaCUDACFD3DWOMOL
+
+STORAGE: velocity, pressure, psolver_step
+
+if (CCTK_Equals(initial_data, "lid_driven_cavity"))
+{
+  SCHEDULE CACUDACFD3D_Init_LDC in CCTK_INITIAL
+  {
+    LANG: C
+  } "Initialize with the lid-driven cavity initial data"
+}
+
+# velocity updates
+
+schedule CaCUDA_CopyToDev in CCTK_PRESTEP
+{
+  LANG: C
+}"Copy pressure to devices before update velocity"
+
+schedule group Update_Velocity IN CCTK_EVOL
+{
+} "Update Velocity"
+
+schedule CACUDA_KERNEL_Launch_Update_Velocity IN Update_Velocity
+{
+  LANG: C
+}"Launch CaCUDA Kernel Update_Velocity"
+
+schedule CACUDA_KERNEL_Launch_Update_Boundaries IN Update_Velocity \
+  after CACUDA_KERNEL_Launch_Update_Velocity
+{
+  LANG: C
+}"Launch CaCUDA Kernel Update_Boundaries after Updating Velocity"
+
+
+# pressure update
+
+schedule group Update_Pressure IN CCTK_EVOL \
+after Update_Velocity
+{
+} "Update Pressure"
+
+schedule CaCUDACFD3D_Pressure_Solver_Iterator_Start IN Update_Pressure
+{
+  LANG: C
+}"Start the iterator for the pressure solver"
+
+schedule group Update_Pressure_Iterator IN Update_Pressure \
+  after CaCUDACFD3D_Pressure_Solver_Iterator_Start \
+  while (CaCUDACFD3DWOMOL::psolver_step)
+{
+}"Iteratively Launch CaCUDA Kernel Update_Pressure"
+
+schedule CaCUDACFD3D_Pressure_Solver_Iterate IN Update_Pressure_Iterator
+{
+  LANG: C
+}"Iteratively solves the conservation of mass equation (by adjusting pressure and velocity)"
+
+schedule CACUDA_KERNEL_Launch_Update_Boundaries IN Update_Pressure_Iterator \
+after CaCUDACFD3D_Pressure_Solver_Iterate 
+{
+  LANG: C
+}"Update the velocity on the boundaries"
+
+schedule CaCUDA_CopyFromDev IN CCTK_EVOL \
+after Update_Pressure
+{
+  LANG: C
+  SYNC: velocity, pressure
+}"Copy variables from devices"
+
+
+############################################################
+#CAKERNEL AUTO GENERATED PART. DO NOT EDIT BELOW THIS POINT#
+############################################################
+
+schedule CaCUDA_AllocDevMem in CaCUDA_AllocMem
+{
+  LANG: C
+}"Allocate memory for variables on devices"
+
+schedule CaCUDA_CopyToDev in CaCUDA_AllocMem \
+after CaCUDA_AllocDevMem
+{
+  LANG: C
+}"Copy the variables to the device"
+
+schedule CaCUDA_FreeDevMem in CaCUDA_FreeMem
+{
+  LANG: C
+}"Free memory on devices"
+

@@ -1,0 +1,7 @@
+# Main make.code.defn file for thorn CaCUDALib
+
+# Source files in this directory
+SRCS = Banner.c CUDADev.cu
+
+# Subdirectories containing source files
+SUBDIRS = 

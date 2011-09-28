@@ -1,0 +1,113 @@
+
+# template group definition; the name of the group is the directory where it is located
+CCTK_KERNEL_TEMPLATE_GROUP gpu_cuda
+{
+  CCTK_KERNEL_TEMPLATE vars
+    scope=group
+    auto=no
+    compile=no
+    file="cacuda.vars-template.h"
+  {
+  
+  } "a template that defines the neccesary variables"
+  
+  CCTK_KERNEL_TEMPLATE comm
+    scope=group
+    auto=no
+    compile=yes
+    file="cacuda.comm-template.cu"
+  {
+    schedule 
+    {
+      "schedule CaCUDA_CopyToDev in CaCUDA_AllocMem after CaCUDA_AllocDevMem
+      {
+          LANG: C
+      }\"Allocate memory for variables on devices\""
+      #another schedules possible here
+    }
+  } "a template that performes the neccesary boundary data exchange"
+
+  CCTK_KERNEL_TEMPLATE mem
+    scope=group
+    auto=no
+    compile=yes
+    file="cacuda.mem-template.cu"
+  {
+    schedule 
+    {
+      "schedule CaCUDA_AllocDevMem in CaCUDA_AllocMem
+      {
+          LANG: C
+      }\"Allocate memory for variables on devices\""
+      #another schedules possible here
+    }
+  } "a template that performes the neccesary memory allocation"
+
+
+  
+  CCTK_KERNEL_TEMPLATE 3dblock
+    scope=file
+    auto=no
+    file="cacuda.3dblock-template.h"
+  {
+    triggers 
+    {
+      vars, comm, mem, code, 3dblock$comp
+    }
+  }
+  
+  CCTK_KERNEL_TEMPLATE 3dstencil
+    scope=file
+    auto=no
+    file="cacuda.3dstencil-template.h"
+  {
+    triggers 
+    {
+      vars, comm, mem, code, 3dstencil$comp
+    }
+  }
+  
+  CCTK_KERNEL_TEMPLATE boundary
+    scope=file
+    auto=no
+    file="cacuda.boundary-template.h"
+  {
+    triggers 
+    {
+      vars, comm, mem, code, boundary$comp
+    }
+  }
+  
+  CCTK_KERNEL_TEMPLATE 3dblock$comp
+    scope=file
+    auto=no
+    compile=yes
+    file="cacuda.3dblock-template.cu"
+  {
+  }
+  
+  CCTK_KERNEL_TEMPLATE 3dstencil$comp
+    scope=file
+    auto=no
+    compile=yes
+    file="cacuda.3dstencil-template.cu"
+  {
+  }
+  
+  CCTK_KERNEL_TEMPLATE boundary$comp
+    scope=file
+    auto=no
+    compile=yes
+    file="cacuda.boundary-template.cu"
+  {
+  }
+  
+  CCTK_KERNEL_TEMPLATE code
+    scope=file
+    auto=no
+    compile=no
+    replace=no
+    file="code"
+  {
+  }
+}

@@ -1,0 +1,84 @@
+
+CAKERNEL_Update_Pressure_Declare_Begin_s                               
+  CAKERNEL_Update_Pressure_Declare_Cached_Variables_s
+  
+  __shared__ CCTK_REAL dp 
+    [CAKERNEL_Threadsz + 1][CAKERNEL_Tiley][CAKERNEL_Tilex];
+  
+                    
+  CAKERNEL_Update_Pressure_Declare_Flow_Variables_s                    
+ 
+  CCTK_REAL d, tmpf, tmpf2; 
+  compute = fetch_data && li >= stncl_xn && lj >= stncl_yn;
+  bool compute2 =  li < (CAKERNEL_Tilex - stncl_xp) &&
+                   lj < (CAKERNEL_Tiley - stncl_yp) && 
+                   compute &&
+                   gi < params.cagh_ni - 1 && gj < params.cagh_nj - 1;  
+
+  tilez_to += 1;
+
+  CAKERNEL_Update_Pressure_Limit_Threads_To_LSH_Begin_s                
+    CAKERNEL_Update_Pressure_Fetch_Data_To_Cache_s
+
+    CAKERNEL_Update_Pressure_Computations_Begin_s                      
+      CAKERNEL_Update_Pressure_Iterate_Local_Tile_s                    
+      dp[lk - 1][lj][li] = dp[lk][lj][li];
+      if(tmpj < tilez_to - 1){
+        CAKERNEL_Update_Pressure_Fetch_Front_Tile_To_Cache_s
+      }	             
+      
+      CAKERNEL_Update_Pressure_Limit_Threads_To_Compute_Begin_s
+        d = (I3D_l(vx, 0, 0, 0) - I3D_l(vx, -1, 0, 0)) / params.cagh_dx;
+        d+= (I3D_l(vy, 0, 0, 0) - I3D_l(vy, 0, -1, 0)) / params.cagh_dy;
+        d+= (I3D_l(vz, 0, 0, 0) - I3D_l(vz, 0, 0, -1)) / params.cagh_dz;
+       
+        tmpf2 = params.cagh_dx * params.cagh_dx; tmpf = 1 / tmpf2 ;
+        tmpf2 = params.cagh_dy * params.cagh_dy; tmpf+= 1 / tmpf2 ;
+        tmpf2 = params.cagh_dz * params.cagh_dz; tmpf+= 1 / tmpf2 ;
+       
+        tmpf *= params.cagh_dt * 2;
+        dp[lk][lj][li] = -d * /*DENSITY*/ 1.0f / tmpf;
+      CAKERNEL_Update_Pressure_Limit_Threads_To_Compute_End_s
+
+      __syncthreads();
+
+      if(compute2 && tmpj > 0){
+        tmpf = 0;
+
+        I3D(p, 0, 0, -1) = I3D(p, 0, 0, -1) + dp[lk - 1][lj][li];
+  
+        tmpf = params.cagh_dt / (/*DENSITY*/ 1.0f * params.cagh_dx);
+        d =  (dp[lk - 1][lj][li] - dp[lk - 1][lj][li + 1]) * tmpf;
+         I3D(vx_out, 0, 0, -1) = d + I3D_l(vx, 0, 0, -1);
+  
+        tmpf = params.cagh_dt / (/*DENSITY*/ 1.0f * params.cagh_dy);
+        d = (dp[lk - 1][lj][li] - dp[lk - 1][lj + 1][li]) * tmpf;
+         I3D(vy_out, 0, 0, -1) = d + I3D_l(vy, 0, 0, -1);
+  
+        tmpf = params.cagh_dt / (/*DENSITY*/ 1.0f * params.cagh_dz);
+        d =  (dp[lk - 1][lj][li] - dp[lk][lj][li]) * tmpf;
+         I3D(vz_out, 0, 0, -1) = d + I3D_l(vz, 0, 0, -1);
+      }
+    CAKERNEL_Update_Pressure_Computations_End_s                        
+  CAKERNEL_Update_Pressure_Limit_Threads_To_LSH_End_s
+
+CAKERNEL_Update_Pressure_Declare_End_s
+
+
+//CAKERNEL_Update_Pressure_Declare_Begin_s                                       
+//  CAKERNEL_Update_Pressure_Declare_Cached_Variables_s                          
+//  CAKERNEL_Update_Pressure_Declare_Flow_Variables_s                            
+//  CAKERNEL_Update_Pressure_Limit_Threads_To_LSH_Begin_s                        
+//    CAKERNEL_Update_Pressure_Fetch_Data_To_Cache_s                             
+//
+//
+//    CAKERNEL_Update_Pressure_Computations_Begin_s                              
+//      CAKERNEL_Update_Pressure_Iterate_Local_Tile_s                            
+//      CAKERNEL_Update_Pressure_Fetch_Front_Tile_To_Cache_s                     
+//        CAKERNEL_Update_Pressure_Limit_Threads_To_Compute_Begin_s                
+//
+//        CAKERNEL_Update_Pressure_Limit_Threads_To_Compute_End_s                  
+//    CAKERNEL_Update_Pressure_Computations_End_s                                
+//  CAKERNEL_Update_Pressure_Limit_Threads_To_LSH_End_s                   
+//
+//CAKERNEL_Update_Pressure_Declare_End_s
