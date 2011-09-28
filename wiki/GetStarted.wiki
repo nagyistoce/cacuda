@@ -26,9 +26,19 @@ Everything, including Cactus flesh and the computational toolkit required for Ca
 CactusCaCUDA
 }}}
 
-= Details =
+= Compile =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+The command line to start compiling is:
+{{{
+$make cacuda-config options=manifest/gnu_options THORNLIST=manifest/ThornList PROMPT=no
+}}}
+
+You may want to speed up the compilation with "-j" option:
+{{{
+$make -j 4 cacuda-config options=manifest/gnu_options THORNLIST=manifest/ThornList PROMPT=no
+}}}
+
+The command above create an executable 
+{{{
+CactusCaCUDA/exe/cactus_cacuda
+}}}
