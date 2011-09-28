@@ -30,6 +30,7 @@ CactusCaCUDA
 
 The command line to start your first compilation is:
 {{{
+$cd CactusCaCUDA
 $make cacuda-config options=manifest/gnu_options THORNLIST=manifest/ThornList PROMPT=no
 }}}
 
