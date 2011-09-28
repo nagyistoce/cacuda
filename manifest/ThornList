@@ -33,7 +33,6 @@ CactusBase/CartGrid3D
 CactusBase/IOASCII      
 CactusBase/IOUtil          
 CactusBase/IOBasic         
-CactusBase/LocalReduce           
 CactusBase/SymBase
 CactusBase/Time 
 CactusConnect/HTTPD
@@ -43,6 +42,7 @@ CactusPUGH/PUGH
 CactusPUGH/PUGHSlab
 CactusPUGH/PUGHReduce
 CactusUtils/TimerReport
+CactusNumerical/LocalReduce
 
 # CaCUDA thorns
 !TARGET   = $ARR
