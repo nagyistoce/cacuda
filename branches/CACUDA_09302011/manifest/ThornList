@@ -27,6 +27,7 @@
 !AUTH_URL = https://svn.cactuscode.org/arrangements/$1/$2/trunk
 !URL      = http://svn.cactuscode.org/arrangements/$1/$2/trunk
 !CHECKOUT = 
+CactusBase/Boundary
 CactusBase/CoordBase
 CactusBase/CartGrid3D      
 CactusBase/IOASCII      
