@@ -38,8 +38,8 @@ F90_DEBUG_FLAGS   =  -g
 CUCC_DEBUG_FLAGS  =  -g
 
 #libraries and include directories (some system requires but others don't)
-#LIBS=cudart cuda
-#LIBDIRS=/usr/lib64 /usr/local/cuda/lib64 /usr/include/cuda/lib64 /usr/lib64/nvidia
+LIBS=cudart cuda
+LIBDIRS=/usr/lib64 /usr/local/cuda/lib64 /usr/include/cuda/lib64 /usr/lib64/nvidia
 
 # enable MPI
 #
