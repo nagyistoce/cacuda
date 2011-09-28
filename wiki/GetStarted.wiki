@@ -50,7 +50,7 @@ $make cacuda-rebuild
 to generate the CUDA code and compile hereafter.
 
 
-= Run a 3D CFD on GPU =
+= Run a 3D CFD Demo on GPU =
 You can copy a sample parameter file cacuda.par under CactusCaCUDA/manifest to CactusCaCUDA/exe.
 {{{
 $cd CactusCaCUDA/exe
