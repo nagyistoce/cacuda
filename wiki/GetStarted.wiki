@@ -10,7 +10,7 @@ You need to
   # Download and install the CUDA toolkit Version 3.0+
 You can then download and try to compile the sample programs in NVIDIA_GPU_Computing_SDK. If you successfully compiled most of the sample codes, you should be ready to test-drive CaCUDA. Otherwise, please continue working on your CUDA programming environment.
 
-= Download =
+= Download Cactus and CaCUDA =
 
 One can easily check out everything required to run a 3D CFD application with a script [http://www.cactuscode.org/download/GetComponents GetComponents], which can be downloaded by
 {{{
@@ -26,7 +26,7 @@ Everything, including Cactus flesh and the computational toolkit required for Ca
 CactusCaCUDA
 }}}
 
-= Compile =
+= Compile CaCUDA =
 
 The command line to start your first compilation is:
 {{{
@@ -48,3 +48,11 @@ After the first successful compilation, you can simply run
 $make cacuda-rebuild
 }}}
 to generate the CUDA code and compile hereafter.
+
+
+= Run a 3D CFD on GPU =
+You can copy a sample parameter file cacuda.par under CactusCaCUDA/manifest to CactusCaCUDA/exe.
+{{{
+$cd CactusCaCUDA/exe
+$./cactus_cacuda cacuda.par
+}}}
