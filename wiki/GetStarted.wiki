@@ -4,13 +4,16 @@
 
 One can easily check out everything required to run a 3D CFD application with a script [http://www.cactuscode.org/download/GetComponents GetComponents], which can be downloaded by
 {{{
- wget http://www.cactuscode.org/download/GetComponents chmod 755 GetComponents
+wget http://www.cactuscode.org/download/GetComponents chmod 755 GetComponents
 }}}
 You can then checkout everything you need with 
-{{{ ./GetComponents -a http://cacuda.googlecode.com/svn/branches/CACUDA_09302011/manifest/ThornList }}}
-
+{{{ 
+./GetComponents -a http://cacuda.googlecode.com/svn/branches/CACUDA_09302011/manifest/ThornList 
+}}}
 Everything, including Cactus flesh and the computational toolkit required for CaCUDA, will be checked out in the directory
-{{{  CactusCaCUDA }}}
+{{{
+CactusCaCUDA
+}}}
 = Details =
 
 Add your content here.  Format your content with:
