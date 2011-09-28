@@ -1,0 +1,82 @@
+ActiveThorns = "CaCUDALib SymBase Boundary PUGH PUGHSlab PUGHReduce LocalReduce CaCUDACFD3DWOMOL CartGrid3D CoordBase Time TimerReport IOASCII IOUtil IOBasic"
+
+# flesh parameters
+Cactus::cctk_run_title = "Cactus CaCUDA Testing Run"
+Cactus::cctk_timer_output = "off"
+Cactus::cctk_show_schedule = "yes"
+Cactus::cctk_show_banners = "yes"
+Cactus::cctk_brief_output = "yes"
+Cactus::cctk_itlast = 100
+
+# CaCUDA parameters
+CaCUDALib::output_banner = "yes"
+CaCUDALib::output_cudadev_info = "yes"
+CaCUDALib::min_cuda_capability = 1.3
+
+# PUGH parameters
+PUGH::global_nx =128
+PUGH::global_ny =128
+PUGH::global_nz =128
+
+# CaCUDA makes use of extra ghostzone to minimize communication
+# cost. This parameter depends on the numerical methods and
+# performance considerations as well.
+PUGH::ghost_size = 11
+
+#set topology for better performance
+#we prefer to decompose along z. PUGH enables manual control.
+#the default setting is "automatic"
+#PUGH::processor_topology = "automatic"
+#PUGH::processor_topology_3d_x = 1 
+#PUGH::processor_topology_3d_y = 1
+#PUGH::processor_topology_3d_z = 1
+
+# Time parameters
+Time::dtfac = 0.0127
+
+# TimerReport parameters
+#TimerReport::output_all_timers_readable=yes
+
+# CartGrid3D parameters
+Grid::domain = full
+Grid::type = byrange
+Grid::xmin = 0.0
+Grid::ymin = 0.0
+Grid::zmin = 0.0
+Grid::xmax = +1.0
+Grid::ymax = +1.0
+Grid::zmax = +1.0
+
+# CaCUDACFD3D parameters
+CaCUDACFD3DWOMOL::num_psolver_steps = 10
+
+# IO parameters 
+IO::out_dir = "cacudacfd3d"
+IO::verbose = "full"
+
+# Every output will require GPU to copy data back to CPU.
+# minimize output as much as you can if you are more concerned about
+# the performance and the final results.
+# HDF and some other formats are also supported by Cactus. Please 
+# check out the instructions at
+# http://cactuscode.org/documentation/visualization/
+# output u on x-y plance at z = 0.0
+IOASCII::out2D_style = "gnuplot f(x,y)"
+IOASCII::out2D_every = 10
+IOASCII::out2D_vars = "cacudacfd3dwomol::vx"
+IOASCII::out2D_xyplane_z = 0.5
+
+# output u on the vertical line x/L = 0.5 to compare against that by Ghia et al (1982).
+IOASCII::out1D_style = "gnuplot f(x)"
+IOASCII::out1D_every = 10
+IOASCII::out1D_vars = "cacudacfd3dwomol::vx"
+IOASCII::out1D_yline_x = 0.5
+IOASCII::out1D_yline_z = 0.5
+IOASCII::out1D_xline_z = 0.5
+IOASCII::out1D_x = "yes"
+IOASCII::out1D_y = "yes"
+IOASCII::out1D_z = "yes"
+
+# output to the stdout
+IOBasic::outInfo_every = 10
+IOBasic::outInfo_vars = "cacudacfd3dwomol::vx cacudacfd3dwomol::p"
