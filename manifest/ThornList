@@ -22,7 +22,7 @@
 !NAME     = .
 
 # Cactus thorns
-!TARGET   = Cactus/arrangements
+!TARGET   = $ARR
 !TYPE     = svn
 !AUTH_URL = https://svn.cactuscode.org/arrangements/$1/$2/trunk
 !URL      = http://svn.cactuscode.org/arrangements/$1/$2/trunk
