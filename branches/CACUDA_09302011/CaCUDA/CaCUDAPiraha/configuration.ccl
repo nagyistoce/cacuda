@@ -1,4 +1,9 @@
 PROVIDES CaCUDAPiraha
 {
-  OPTIONS                                    JAVA                                     JAVAC
+  SCRIPT cacuda_piraha.sh
+  LANG bash
+  OPTIONS                                \
+    JAVA                                 \
+    JAVAC
 }
+
