@@ -6,9 +6,9 @@ CaCUDA has been tested with CUDA toolkit 3.0+. Before you go through the followi
 
 The latest CUDA toolkit can be found at [http://developer.nvidia.com/category/zone/cuda-zone NVIDIA CUDA Zone].
 You need to
-  # Download and install the latest graphic card drivers from NVIDIA.
+  # Download and install the latest graphic card driver from NVIDIA.
   # Download and install the CUDA toolkit Version 3.0+
-You can then download and try to compile the sample programs in NVIDIA_GPU_Computing_SDK. If you successfully compiled most of the sample codes, you should be ready to test-drive CaCUDA. Otherwise, please continue working on your CUDA programming environment.
+You can then download and try to compile the sample programs in NVIDIA_GPU_Computing_SDK. If you manage to compile most of the sample codes, you should be ready to test-drive CaCUDA. Otherwise, please continue working on your CUDA programming environment.
 
 = Download Cactus and CaCUDA =
 
