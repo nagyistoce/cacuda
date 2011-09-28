@@ -1,0 +1,58 @@
+# Schedule definitions for thorn CaCUDALib
+
+  SCHEDULE GROUP CaCUDA_Startup at CCTK_STARTUP
+  {
+  } "CaCUDA starts"
+
+  SCHEDULE GROUP CaCUDA_Shutdown at CCTK_SHUTDOWN
+  {
+  } "CaCUDA ends"
+
+#  SCHEDULE GROUP CaCUDA_AllocMem in CCTK_BASEGRID after CaCUDALib_SetDev
+#  {
+#  } "Alloc device memory"
+#
+#  SCHEDULE GROUP CaCUDA_FreeMem in CaCUDA_Shutdown
+#  {
+#  } "Free device memory"
+
+# output CaCUDA banner 
+
+  if (output_banner)
+  {
+    SCHEDULE CaCUDALib_Banner at CCTK_STARTUP before CaCUDA_Startup
+    {
+      LANG: C
+    } "Output CaCUDA banner"
+  }
+
+# Init CaCUDALib
+
+  SCHEDULE CaCUDALib_InitDev in CaCUDA_Startup
+  {
+    LANG: C
+  } "Initialize CaCUDALib"
+
+# Output device information
+
+  if (output_cudadev_info)
+  {
+    SCHEDULE CaCUDALib_OutputDevInfo in CaCUDA_Startup after CaCUDALib_InitDev
+    {
+      LANG: C
+    } "Output device information"
+  }
+
+# Set device for each MPI process (one dev per MPI process)
+
+  SCHEDULE CaCUDALib_SetDev in CCTK_BASEGRID
+  {
+    LANG: C
+  } "Set device"
+
+# Shutdown CaCUDALib
+
+  schedule CaCUDALib_ShutDownDev in CaCUDA_Shutdown
+  {
+    LANG: C
+  } "Shut down CaCUDA devices"

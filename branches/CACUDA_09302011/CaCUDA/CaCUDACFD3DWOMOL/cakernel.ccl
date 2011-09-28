@@ -1,0 +1,53 @@
+# CUDA Kernel definition for thorn CaCUDACFD3D
+
+CCTK_CUDA_KERNEL Update_Velocity
+   TYPE=*/3dblock
+   STENCIL="1,1,1,1,1,1"
+   TILE="16,16,16"
+#   TILE="8,8,8"
+{
+  CCTK_CUDA_KERNEL_VARIABLE cached=yes intent=separateinout 
+  {
+    vx, vy, vz
+  } "velocity u^i"
+  CCTK_CUDA_KERNEL_VARIABLE cached=yes intent=in
+  {
+    p # in the interface.ccl
+  } "pressure p"
+  CCTK_CUDA_KERNEL_PARAMETER
+  {
+    density # in the param.ccl file
+  } "density of the incompressible fluid"
+}
+
+CCTK_CUDA_KERNEL Update_Pressure
+    TYPE=*/3dstencil
+    STENCIL="1,1,1,1,1,1"
+    TILE="16,16,16"
+#    TILE="8,8,8"
+{
+  CCTK_CUDA_KERNEL_VARIABLE cached=yes intent=separateinout
+  {
+    vx, vy, vz
+  } "velocity u^i"
+  CCTK_CUDA_KERNEL_VARIABLE cached=no intent=inout
+  {
+    p
+  } "pressure p"
+  CCTK_CUDA_KERNEL_PARAMETER
+  {
+    density
+  } "density of the incompressible fluid"
+}
+
+CCTK_CUDA_KERNEL Update_Boundaries
+    TYPE=*/boundary
+    TILE="16,16,16"
+#    TILE="8,8,8"
+{
+  CCTK_CUDA_KERNEL_VARIABLE cached=no intent=inout
+  {
+    vx, vy, vz
+  } "velocity u^i"
+}
+

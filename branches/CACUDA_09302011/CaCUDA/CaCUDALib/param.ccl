@@ -1,0 +1,17 @@
+# Parameter definitions for thorn CaCUDALib
+
+restricted:
+
+private:
+BOOLEAN output_banner "Shall we output the banner for CaCUDA ?"
+{
+} "yes"
+
+BOOLEAN output_cudadev_info "Shall we output CUDA device information ?"
+{
+} "yes"
+
+CCTK_REAL min_cuda_capability "What is the minimum capability required ?"
+{
+  1.0:* :: "Anything larger than 1.0"
+} 1.0

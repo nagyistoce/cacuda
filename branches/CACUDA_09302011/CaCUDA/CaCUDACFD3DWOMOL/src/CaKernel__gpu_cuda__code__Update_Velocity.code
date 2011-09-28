@@ -1,0 +1,149 @@
+CAKERNEL_Update_Velocity_Begin
+
+    CCTK_REAL tmpf = 0, v_sum, v, va, vb;
+
+    CAKERNEL_Update_Velocity_Computations_Begin
+
+//      Computing the new x component of the velocity;
+        v_sum = -(I3D_l(p,1,0,0) - I3D_l(p,0,0,0)) / (/*DENSITY*/1 * params.cagh_dx);
+//      u convection
+        v = I3D_l(vx,0,0,0);
+        va = I3D_l(vx,1,0,0) - v; vb = v - I3D_l(vx,-1,0,0);
+        tmpf = params.cagh_dx * 2;
+        v_sum -= v / tmpf * (va + vb + COPYSIGN(/*alpha*/0.2, v) * (vb - va));
+//      v convection
+        v = (I3D_l(vy,0,0,0) + I3D_l(vy,0,-1,0) + I3D_l(vy,1,0,0) + I3D_l(vy,1,-1,0)) / 4;
+        va = I3D_l(vx,0,1,0) - I3D_l(vx,0,0,0);
+        vb = I3D_l(vx,0,0,0) - I3D_l(vx,0,-1,0);
+        tmpf = params.cagh_dy * 2;
+        v_sum -= v / tmpf * (va + vb + COPYSIGN(/*alpha*/0.2, v) * (vb - va));
+//      w convection
+        v = (I3D_l(vz,0,0,0) + I3D_l(vz,0,0,-1) + I3D_l(vz,1,0,0) + I3D_l(vz,1,0,-1)) / 4;
+        va = I3D_l(vx,0,0,1) - I3D_l(vx,0,0,0);
+        vb = I3D_l(vx,0,0,0) - I3D_l(vx,0,0,-1);
+        tmpf = params.cagh_dz * 2;
+        v_sum -= v / tmpf * (va + vb + COPYSIGN(/*alpha*/0.2, v) * (vb - va));
+
+//      viscous fraction
+        v  = ((I3D_l(vx,1,0,0) - I3D_l(vx,0,0,0)) / params.cagh_dx -
+              (I3D_l(vx,0,0,0) - I3D_l(vx,-1,0,0)) / params.cagh_dx) / params.cagh_dx;
+        v += ((I3D_l(vx,0,1,0) - I3D_l(vx,0,0,0)) / params.cagh_dy -
+              (I3D_l(vx,0,0,0) - I3D_l(vx,0,-1,0)) / params.cagh_dy) / params.cagh_dy;
+        v += ((I3D_l(vx,0,0,1) - I3D_l(vx,0,0,0)) / params.cagh_dz -
+              (I3D_l(vx,0,0,0) - I3D_l(vx,0,0,-1)) / params.cagh_dz) / params.cagh_dz;
+        v_sum += v * /*VISCOSITY*/ 0.01;
+
+//      External forces
+        v_sum += /*GX*/ 0;
+        v_sum = v_sum * params.cagh_dt + I3D_l(vx,0,0,0);
+
+//      Store results to global memory
+        I3D(vx_out,0,0,0) = v_sum;
+//        if(threadIdx.x == 1 && gj == 62)                                      
+//          printf("4val [%02d, %02d, %02d]=[%f, %f]\n", gi, gj, gk,            
+//            v_sum, I3D(vx_out, 0, 0, 0));                     
+
+//      Computing the new y component of the velocity;
+//      pressure
+        v_sum = -(I3D_l(p,0,1,0) - I3D_l(p,0,0,0)) / (/*DENSITY*/1 * params.cagh_dy);
+
+//      u convection
+        v = (I3D_l(vx,0,0,0) + I3D_l(vx,-1,0,0) + I3D_l(vx,0,1,0) + I3D_l(vx,-1,1,0)) / 4;
+        va = (I3D_l(vy,1,0,0) - I3D_l(vy,0,0,0)) ;
+        vb = (I3D_l(vy,0,0,0) - I3D_l(vy,-1,0,0)) ;
+        tmpf = params.cagh_dx * 2 ;
+        v_sum -= v / tmpf * (va + vb + COPYSIGN(/*alpha*/0.2, v) * (vb - va));
+//
+//      v convection
+        v = I3D_l(vy,0,0,0);
+        va = (I3D_l(vy,0,1,0) - I3D_l(vy,0,0,0));
+        vb = (I3D_l(vy,0,0,0) - I3D_l(vy,0,-1,0));
+        tmpf = params.cagh_dy * 2;
+        v_sum -= v / tmpf * (va + vb + COPYSIGN(/*alpha*/0.2, v) * (vb - va));
+
+//      w convection
+        v = (I3D_l(vz,0,0,0) + I3D_l(vz,0,0,-1) + I3D_l(vz,0,1,0) + I3D_l(vz,0,1,-1)) / 4;
+        va = (I3D_l(vy,0,0,1) - I3D_l(vy,0,0,0));
+        vb = (I3D_l(vy,0,0,0) - I3D_l(vy,0,0,-1));
+        tmpf = params.cagh_dz * 2;
+        v_sum -= v / tmpf * (va + vb + COPYSIGN(/*alpha*/0.2, v) * (vb - va));
+
+//     viscous fraction
+        v  = ((I3D_l(vy,1,0,0) - I3D_l(vy,0,0,0)) / params.cagh_dx -
+              (I3D_l(vy,0,0,0) - I3D_l(vy,-1,0,0)) / params.cagh_dx) / params.cagh_dx;
+        v += ((I3D_l(vy,0,1,0) - I3D_l(vy,0,0,0)) / params.cagh_dy -
+              (I3D_l(vy,0,0,0) - I3D_l(vy,0,-1,0)) / params.cagh_dy) / params.cagh_dy;
+        v += ((I3D_l(vy,0,0,1) - I3D_l(vy,0,0,0)) / params.cagh_dz -
+              (I3D_l(vy,0,0,0) - I3D_l(vy,0,0,-1)) / params.cagh_dz) / params.cagh_dz;
+        v_sum += v * /*VISCOSITY*/ 0.01;
+
+//      forces
+        v_sum += /*GY*/ 0;
+        v_sum = v_sum * params.cagh_dt + I3D_l(vy,0,0,0);
+
+//      Store results to global memory
+        I3D(vy_out,0,0,0) = v_sum;
+
+//      Computing the new z component of the velocity;
+//      pressure
+        v_sum = -(I3D_l(p,0,0,1) - I3D_l(p,0,0,0)) / (/*DENSITY*/1 * params.cagh_dz);
+
+//      u convection
+        v = (I3D_l(vx,0,0,0) + I3D_l(vx,-1,0,0) + I3D_l(vx,0,0,1) + I3D_l(vx,-1,0,1)) / 4;
+        va = (I3D_l(vz,1,0,0) - I3D_l(vz,0,0,0));
+        vb = (I3D_l(vz,0,0,0) - I3D_l(vz,-1,0,0));
+        tmpf = params.cagh_dz * 2;
+        v_sum -= v / tmpf * (va + vb + COPYSIGN(/*alpha*/0.2, v) * (vb - va));
+
+//      v convection
+        v = (I3D_l(vy,0,0,0) + I3D_l(vy,0,-1,0) + I3D_l(vy,0,0,1) + I3D_l(vy,0,-1,1)) / 4;
+        va = (I3D_l(vz,0,1,0) - I3D_l(vz,0,0,0));
+        vb = (I3D_l(vz,0,0,0) - I3D_l(vz,0,-1,0));
+        tmpf = params.cagh_dz * 2;
+        v_sum -= v / tmpf * (va + vb + COPYSIGN(/*alpha*/0.2, v) * (vb - va));
+
+//      w convection
+        v = I3D_l(vz,0,0,0);
+        va = (I3D_l(vz,0,0,1) - I3D_l(vz,0,0,0));
+        vb = (I3D_l(vz,0,0,0) - I3D_l(vz,0,0,-1));
+        tmpf = params.cagh_dz * 2;
+        v_sum -= v / tmpf * (va + vb + COPYSIGN(/*alpha*/0.2, v) * (vb - va));
+
+//      viscous fraction
+        v  = ((I3D_l(vz,1,0,0) - I3D_l(vz,0,0,0)) / params.cagh_dx -
+              (I3D_l(vz,0,0,0) - I3D_l(vz,-1,0,0)) / params.cagh_dx) / params.cagh_dx;
+        v += ((I3D_l(vz,0,1,0) - I3D_l(vz,0,0,0)) / params.cagh_dy -
+              (I3D_l(vz,0,0,0) - I3D_l(vz,0,-1,0)) / params.cagh_dy) / params.cagh_dy;
+        v += ((I3D_l(vz,0,0,1) - I3D_l(vz,0,0,0)) / params.cagh_dz -
+              (I3D_l(vz,0,0,0) - I3D_l(vz,0,0,-1)) / params.cagh_dz) / params.cagh_dz;
+        v_sum += v * /*VISCOSITY*/ 0.01;
+
+//      forces
+        v_sum += /*GZ*/ 0;
+        v_sum = v_sum * params.cagh_dt + I3D_l(vz,0,0,0);
+
+//      store the results to global array
+        I3D(vz_out,0,0,0) = v_sum;
+
+    CAKERNEL_Update_Velocity_Computations_End
+
+CAKERNEL_Update_Velocity_End
+
+
+//CAKERNEL_Update_Velocity_Declare_Begin_s                                       
+//  CAKERNEL_Update_Velocity_Declare_Cached_Variables_s                          
+//  CAKERNEL_Update_Velocity_Declare_Flow_Variables_s                            
+//  CAKERNEL_Update_Velocity_Limit_Threads_To_LSH_Begin_s                        
+//    CAKERNEL_Update_Velocity_Fetch_Data_To_Cache_s                             
+//
+//
+//    CAKERNEL_Update_Velocity_Computations_Begin_s                              
+//      CAKERNEL_Update_Velocity_Iterate_Local_Tile_s                            
+//      CAKERNEL_Update_Velocity_Fetch_Front_Tile_To_Cache_s                     
+//        CAKERNEL_Update_Velocity_Limit_Threads_To_Compute_Begin_s                
+//
+//        CAKERNEL_Update_Velocity_Limit_Threads_To_Compute_End_s                  
+//    CAKERNEL_Update_Velocity_Computations_End_s                                
+//  CAKERNEL_Update_Velocity_Limit_Threads_To_LSH_End_s                   
+//
+//CAKERNEL_Update_Velocity_Declare_End_s
