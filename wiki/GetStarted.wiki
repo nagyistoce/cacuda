@@ -2,8 +2,7 @@
 
 = Download =
 
-One can easily check out everything required to run a 3D CFD application with a script [http://www.cactuscode.org/download/GetComponents
-chmod GetComponents], which can be downloaded by
+One can easily check out everything required to run a 3D CFD application with a script [http://www.cactuscode.org/download/GetComponents GetComponents], which can be downloaded by
 
  wget http://www.cactuscode.org/download/GetComponents chmod 755 GetComponents
 
