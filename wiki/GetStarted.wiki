@@ -44,9 +44,9 @@ You probably don't need to do anything if you have the CUDA compiler installed a
 {{{
 LIBDIRS=/usr/lib64 /usr/local/cuda/lib64 /usr/include/cuda/lib64 /usr/lib64/nvidia
 }}}
-to match what you have. You can also use the 32 bit installation if you want.
+to match what you have. You can also use the 32 bit installation by setting LIBDIRS to your 32 bit installation.
 
-The command above create an executable 
+The compilation will create an executable
 {{{
 CactusCaCUDA/exe/cactus_cacuda
 }}}
@@ -56,7 +56,6 @@ After the first successful compilation, you can simply run
 $make cacuda-rebuild
 }}}
 to generate the CUDA code and compile hereafter.
-
 
 = Run a 3D CFD Demo on GPU =
 You can copy a sample parameter file cacuda.par under CactusCaCUDA/manifest to CactusCaCUDA/exe.
