@@ -39,6 +39,13 @@ You may want to speed up the compilation with "-j" option:
 $make -j 8 cacuda-config options=manifest/gnu_options THORNLIST=manifest/ThornList PROMPT=no
 }}}
 
+If you notice any errors, please take a look at the Cactus compilation options in CactusCaCUDA/manifest/gnu_options to make sure they match your system.
+You probably don't need to do anything if you have the CUDA compiler installed at the default location (assuming you installed the 64 bit version). If not, you need to modify 
+{{{
+LIBDIRS=/usr/lib64 /usr/local/cuda/lib64 /usr/include/cuda/lib64 /usr/lib64/nvidia
+}}}
+to match what you have. You can also use the 32 bit installation if you want.
+
 The command above create an executable 
 {{{
 CactusCaCUDA/exe/cactus_cacuda
