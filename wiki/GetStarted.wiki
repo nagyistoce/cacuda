@@ -34,9 +34,9 @@ $cd CactusCaCUDA
 $make cacuda-config options=manifest/gnu_options THORNLIST=manifest/ThornList PROMPT=no
 }}}
 
-You may want to speed up the compilation with "-j" option:
+You may want to speed up the compilation with "-j" option.
 {{{
-$make -j 8 cacuda-config options=manifest/gnu_options THORNLIST=manifest/ThornList PROMPT=no
+$make -j 16 cacuda-config options=manifest/gnu_options THORNLIST=manifest/ThornList PROMPT=no
 }}}
 
 If you notice any errors, please take a look at the Cactus compilation options in CactusCaCUDA/manifest/gnu_options to make sure they match your system.
