@@ -1,0 +1,50 @@
+#compilers
+CC                =  /usr/bin/gcc
+LD                =  /usr/bin/g++
+CUCC              =  /usr/local/cuda_4.0.17/cuda/bin/nvcc
+CXX               =  /usr/bin/g++
+F77               =  /usr/bin/gfortran
+F90               =  /usr/bin/gfortran
+
+# change this to 8 for double precision.
+REAL_PRECISION    =  4
+
+#following C99 standard (mainly for declarations in for loops)
+CFLAGS            =  -std=c99
+# sm_20 is for fermi cards
+CUCCFLAGS         =  -arch=sm_20 --ptxas-options=-v
+
+#optimization ?
+OPTIMISE          =  yes
+C_OPTIMISE_FLAGS  =  -pipe -O2 -finline-functions
+CXX_OPTIMISE_FLAGS=  -pipe -O2 -finline-functions
+F77_OPTIMISE_FLAGS=  -pipe -O2 -finline-functions
+F90_OPTIMISE_FLAGS=  -pipe -O2 -finline-functions
+CUCC_OPTIMISE_FLAGS= -O2
+
+#warning flags
+C_WARN_FLAGS      =  -Wall
+CXX_WARN_FLAGS    =  -Wall
+F77_WARN_FLAGS    =  -Wall
+F90_WARN_FLAGS    =  -Wall
+CUCC_OPTIMISE_FLAGS=
+
+#debugging flags
+DEBUG             =  yes
+C_DEBUG_FLAGS     =  -g
+CXX_DEBUG_FLAGS   =  -g
+F77_DEBUG_FLAGS   =  -g
+F90_DEBUG_FLAGS   =  -g
+CUCC_DEBUG_FLAGS  =  -g
+
+#libraries and include directories (some system requires but others don't)
+LIBS=cudart cuda
+LIBDIRS=/usr/lib64 /usr/local/cuda/lib64 
+
+# enable MPI
+#
+# If you don't use MPI, then you miss one of the best features that CaCUDA can provide
+#
+MPI              =  OpenMPI
+OPENMPI_LIB_DIR  =  /usr/local/mpi/openmpi/openmpi-1.4.3-intel-12.0.4/lib 
+OPENMPI_INC_DIR  =  /usr/local/mpi/openmpi/openmpi-1.4.3-intel-12.0.4/include
