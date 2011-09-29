@@ -55,7 +55,12 @@ After the first successful compilation, you can simply run
 {{{
 $make cacuda-rebuild
 }}}
-to generate the CUDA code and compile hereafter.
+to generate the CUDA code and compile hereafter,
+or
+{{{
+$make cacuda
+}}}
+to compile without regenerating the CUDA code.
 
 = Run a 3D CFD Demo on GPU =
 You can copy a sample parameter file cacuda.par under CactusCaCUDA/manifest to CactusCaCUDA/exe.
