@@ -51,11 +51,11 @@ The compilation will create an executable
 CactusCaCUDA/exe/cactus_cacuda
 }}}
 
-After the first successful compilation, you can simply run
+After the first successful compilation with the lengthy compilation command, hereafter you can simply run
 {{{
 $make cacuda-rebuild
 }}}
-to generate the CUDA code and compile hereafter,
+to generate the CUDA code and compile,
 or
 {{{
 $make cacuda
