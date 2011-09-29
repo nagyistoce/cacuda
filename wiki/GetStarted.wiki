@@ -1,5 +1,19 @@
 #summary Get Started with CaCUDA
+{{{
+===========================================================
+           o-o       o-o o   o o-o     O
+          /         /    |   | |  \   / \
+         O      oo O     |   | |   O o---o
+          \    | |  \    |   | |  /  |   |
+           o-o o-o-  o-o  o-o  o-o   o   o
 
+     Unleash the Power of Cactus on Hybrid Systems !
+          http://code.google.com/p/cacuda
+
+             (c) Copyright The Authors
+             GNU Licensed. No Warranty
+=========================================================== 
+}}}
 = Prepare CUDA Programming Environment =
 
 CaCUDA has been tested with CUDA toolkit 3.0+. Before you go through the following steps, make sure you set up your CUDA programming environment properly. 
