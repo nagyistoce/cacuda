@@ -12,7 +12,7 @@ REAL_PRECISION    =  4
 #following C99 standard (mainly for declarations in for loops)
 CFLAGS            =  -std=c99
 # sm_20 is for fermi cards
-CUCCFLAGS         =  -arch=sm_20 --ptxas-options=-v
+CUCCFLAGS         =  -arch=sm_11 --ptxas-options=-v
 
 #optimization ?
 OPTIMISE          =  yes
