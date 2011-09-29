@@ -44,7 +44,7 @@ You probably don't need to do anything if you have the CUDA compiler installed a
 {{{
 LIBDIRS=/usr/lib64 /usr/local/cuda/lib64 /usr/include/cuda/lib64 /usr/lib64/nvidia
 }}}
-to match what you have. You can also use the 32 bit installation by setting LIBDIRS to your 32 bit installation.
+to match what you have. You can also use the 32 bit installation by setting LIBDIRS to point to your 32 bit installation.
 
 The compilation will create an executable
 {{{
