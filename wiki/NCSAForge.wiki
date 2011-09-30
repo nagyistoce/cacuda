@@ -1,7 +1,7 @@
 #summary CaCUDA running on NCSA's latest GPU cluster Forge
 
 == Forge at NCSA ==
-[http://www.ncsa.illinois.edu/UserInfo/Resources/Hardware/DellNVIDIACluster/ Forge] has 18 Dell PowerEdge C6145s that contain 36 nodes of dual-socket/eight-core AMD processors, with M2070 NVIDIA Fermi GPU units. 
+[http://www.ncsa.illinois.edu/UserInfo/Resources/Hardware/DellNVIDIACluster/ Forge] has 18 Dell [http://www.dell.com/us/enterprise/p/poweredge-c6145/pd.aspx PowerEdge C6145s] that contain 36 nodes of dual-socket/eight-core AMD processors, with M2070 NVIDIA Fermi GPU units. 
 There are eight Fermi units for each node, for a total of 288 while 
 the maximum number of nodes a common user can use is only 18 for a total
 of 144.
