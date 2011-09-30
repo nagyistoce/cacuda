@@ -1,8 +1,11 @@
 #summary CaCUDA running on NCSA's latest GPU cluster Forge
 
 == Forge at NCSA ==
-[http://www.ncsa.illinois.edu/UserInfo/Resources/Hardware/DellNVIDIACluster/ Forge] has 18 Dell PowerEdge C6145s that contain 36 nodes of dual-socket/eight-core AMD processors, with M2070 NVIDIA Fermi GPU units housed in Dell's C410x PCI expansion enclosures; there are eight Fermi units for each node, for a total of 288. Each NVIDIA M2070 provides more than 500 gigaflops of double-precision performance and 6GB of GDDR5 memory.
-A QDR InfiniBand interconnect fabric will interconnect the nodes; 700 terabytes of GPFS filesystem space will be provided by two Data Direct Networks SFA 10000 units. The I/O bandwidth of the system is expected to exceed 16GB/sec.
+[http://www.ncsa.illinois.edu/UserInfo/Resources/Hardware/DellNVIDIACluster/ Forge] has 18 Dell PowerEdge C6145s that contain 36 nodes of dual-socket/eight-core AMD processors, with M2070 NVIDIA Fermi GPU units. 
+
+There are eight Fermi units for each node, for a total of 288 while 
+the maximum number of nodes a common user can use is only 18 for a total
+of 144.
 
 == Queues on Forge ==
 {{{
@@ -54,7 +57,7 @@ Device 0: Tesla M2070
 
 
 == Cactus Timing for CaCUDA ==
-CaCUDACFD3D running on one GPU card with 128x128x128 local grid size for 1000 timesteps.
+CaCUDACFD3D (single precision) running on one GPU card with 128x128x128 local grid size for 1000 timesteps.
 
 {{{
 ===================================================================================================
@@ -137,7 +140,7 @@ Thorn           | Scheduled routine in time bin           | gettimeofday [secs] 
 ===================================================================================================
 }}}
 
-CaCUDACFD3D running on a 16 GPU cards with 128x128x128 local grid size for 1000 timesteps.
+CaCUDACFD3D (single precision) running on a 16 GPU cards with 128x128x128 local grid size for 1000 timesteps.
 
 {{{
 
