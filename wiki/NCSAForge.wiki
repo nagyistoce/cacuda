@@ -51,8 +51,7 @@ Device 0: Tesla M2070
 
 
 == Cactus Timing for CaCUDA ==
-
-===CaCUDACFD3D running on a single GPU:===
+CaCUDACFD3D running on a single GPU with 128x128x128 local grid size for 1000 timesteps.
 
 {{{
 ===================================================================================================
