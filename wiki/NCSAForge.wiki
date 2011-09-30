@@ -51,7 +51,7 @@ Device 0: Tesla M2070
 
 
 == Cactus Timing for CaCUDA ==
-CaCUDACFD3D running on a single GPU with 128x128x128 local grid size for 1000 timesteps.
+CaCUDACFD3D running on one GPU card with 128x128x128 local grid size for 1000 timesteps.
 
 {{{
 ===================================================================================================
@@ -131,5 +131,89 @@ Thorn           | Scheduled routine in time bin           | gettimeofday [secs] 
 ===================================================================================================
   ---------------------------------------------------------------------------------------------------
                 | Total time for simulation               |         47.66059500 |      43.90232600 
+===================================================================================================
+}}}
+
+CaCUDACFD3D running on a 16 GPU cards with 128x128x128 local grid size for 1000 timesteps.
+
+{{{
+
+===================================================================================================
+Thorn           | Scheduled routine in time bin           | gettimeofday [secs] | getrusage [secs] 
+===================================================================================================
+  CaCUDALib       | Output CaCUDA banner                    |          0.00000900 |       0.00000000 
+  CaCUDALib       | Initialize CaCUDALib                    |         27.54636800 |       0.00799900 
+  CaCUDALib       | Output device information               |          0.00012100 |       0.00000000 
+  CartGrid3D      | Register GH Extension for GridSymmetry  |          0.00000400 |       0.00000000 
+  CoordBase       | Register a GH extension to store the coo|          0.00000100 |       0.00000000 
+  PUGH            | Startup routine                         |          0.00000700 |       0.00000000 
+  IOUtil          | Startup routine                         |          0.00000500 |       0.00000000 
+  IOASCII         | Startup routine                         |          0.00000200 |       0.00000000 
+  LocalReduce     | Startup routine                         |          0.00001600 |       0.00000000 
+  IOBasic         | Startup routine                         |          0.00000200 |       0.00000000 
+  PUGH            | Register Physical to Logical process map|          0.00000300 |       0.00000000 
+  PUGH            | Register topology generation routines ro|          0.00000200 |       0.00000000 
+  PUGHReduce      | Startup routine                         |          0.00002500 |       0.00000000 
+  SymBase         | Register GH Extension for SymBase       |          0.00001000 |       0.00000000 
+  ---------------------------------------------------------------------------------------------------
+                | Total time for CCTK_STARTUP             |         27.54657500 |       0.00799900 
+===================================================================================================
+  Boundary        | Register boundary conditions that this t|          0.03041100 |       0.00000000 
+  CartGrid3D      | Register coordinates for the Cartesian g|          0.04359200 |       0.00000000 
+  CartGrid3D      | Register symmetry boundaries            |          0.00481200 |       0.00000000 
+  SymBase         | Print symmetry boundary face description|          0.00000300 |       0.00000000 
+  ---------------------------------------------------------------------------------------------------
+                | Total time for CCTK_WRAGH               |          0.07881800 |       0.00000000 
+===================================================================================================
+  Boundary        | Check dimension of grid variables       |          0.00000100 |       0.00000000 
+  CartGrid3D      | Check coordinates for CartGrid3D        |          0.00000300 |       0.00000000 
+  ---------------------------------------------------------------------------------------------------
+                | Total time for CCTK_PARAMCHECK          |          0.00000400 |       0.00000000 
+===================================================================================================
+  CaCUDALib       | Set device                              |          0.00011500 |       0.00000000 
+  CaCUDACFD3DWOMOL| Allocate memory for variables on devices|          2.34137500 |       0.00599900 
+  CaCUDACFD3DWOMOL| Allocate memory for variables on devices|          0.07256300 |       0.02799500 
+  CartGrid3D      | Set up ranges for spatial 3D Cartesian c|          0.00028600 |       0.00000000 
+  CartGrid3D      | Set up spatial 3D Cartesian coordinates |          0.09712100 |       0.08598700 
+  IOASCII         | Choose 1D output lines                  |          0.00005300 |       0.00000000 
+  IOASCII         | Choose 2D output planes                 |          0.00000500 |       0.00000000 
+  PUGH            | Report on PUGH set up                   |          0.00002200 |       0.00000000 
+  SymBase         | Check whether the driver set up the grid|          0.00000300 |       0.00000000 
+  Time            | Initialise Time variables               |          0.00000400 |       0.00000000 
+  Time            | Set timestep based on Courant condition |          0.00000400 |       0.00000000 
+  ---------------------------------------------------------------------------------------------------
+                | Total time for CCTK_BASEGRID            |          2.51155100 |       0.11998100 
+===================================================================================================
+  CaCUDACFD3DWOMOL| Initialize with the lid-driven cavity in|          0.01165000 |       0.01199900 
+  IOBasic         | Initialisation routine                  |          0.00000400 |       0.00000000 
+  ---------------------------------------------------------------------------------------------------
+                | Total time for CCTK_INITIAL             |          0.01165400 |       0.01199900 
+===================================================================================================
+  CaCUDACFD3DWOMOL| Launch CaCUDA Kernel Update_Velocity    |         13.16085100 |      13.09203600 
+  CaCUDACFD3DWOMOL| Launch CaCUDA Kernel Update_Boundaries a|          7.32819800 |       7.16389800 
+  CaCUDACFD3DWOMOL| Start the iterator for the pressure solv|          0.00133900 |       0.00200000 
+  CaCUDACFD3DWOMOL| Update the number of iterations for the |          0.00974400 |       0.01199800 
+  CaCUDACFD3DWOMOL| Iteratively solves the conservation of m|         38.29541100 |      37.67623300 
+  CaCUDACFD3DWOMOL| Update the velocity on the boundaries   |         22.83294100 |      21.59974000 
+  CaCUDACFD3DWOMOL| Copy variables (boundary only) from devi|         27.99468700 |      11.23630400 
+  CaCUDACFD3DWOMOL| Copy variables to device (boundary only)|         15.35790900 |      12.11915000 
+  ---------------------------------------------------------------------------------------------------
+                | Total time for CCTK_EVOL                |        124.98108000 |     102.90135900 
+===================================================================================================
+  TimerReport     | Print the timer report                  |          0.00096700 |       0.00000000 
+  ---------------------------------------------------------------------------------------------------
+                | Total time for CCTK_CHECKPOINT          |          0.00096700 |       0.00000000 
+===================================================================================================
+  CaCUDACFD3DWOMOL| Copy variables from devices             |          2.04147800 |       0.28495700 
+  TimerReport     | Print the timer report                  |          0.00127200 |       0.00000000 
+  ---------------------------------------------------------------------------------------------------
+                | Total time for CCTK_ANALYSIS            |          2.04275000 |       0.28495700 
+===================================================================================================
+  TimerReport     | Print the timer report                  |          0.00000000 |       0.00000000 
+  ---------------------------------------------------------------------------------------------------
+                | Total time for CCTK_TERMINATE           |          0.00000000 |       0.00000000 
+===================================================================================================
+  ---------------------------------------------------------------------------------------------------
+                | Total time for simulation               |        174.00292500 |     123.97015400 
 ===================================================================================================
 }}}
