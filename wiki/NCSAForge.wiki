@@ -2,7 +2,6 @@
 
 == Forge at NCSA ==
 [http://www.ncsa.illinois.edu/UserInfo/Resources/Hardware/DellNVIDIACluster/ Forge] has 18 Dell PowerEdge C6145s that contain 36 nodes of dual-socket/eight-core AMD processors, with M2070 NVIDIA Fermi GPU units. 
-
 There are eight Fermi units for each node, for a total of 288 while 
 the maximum number of nodes a common user can use is only 18 for a total
 of 144.
@@ -55,8 +54,31 @@ Device 0: Tesla M2070
   TCC driver used: No
 }}}
 
+== Running CaCUDA Code on Forge ==
+
+You can simply follow [GetStarted] to download the code. When you compile
+you shall start with a sample option forge_gnu_options distributed with CaCUDA by
+{{{
+make -j 16 cacuda-config options=manifest/forge_gnu_options THORNLIST=manifest/ThornList PROMPT=no
+}}}
+Since the Java module is not loaded by default, in order to generate CUDA code on the fly, you should load java by
+{{{
+$module load java-sun-1.6
+}}}
+
+A sample PBS script for those who use OpenMPI can be found at 
+{{{
+/usr/local/doc/batch_scripts/openmpi.pbs
+}}}
+
+If you use other MPI libraries please pick the corresponding sample
+PBS script to get started. Other scripts can be found under
+{{{
+/uf/ac/jtao/CactusCaCUDA
+}}}
 
 == Cactus Timing for CaCUDA ==
+
 CaCUDACFD3D (single precision) running on one GPU card with 128x128x128 local grid size for 1000 timesteps.
 
 {{{
