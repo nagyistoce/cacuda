@@ -2,11 +2,59 @@
 CaCUDA on [http://www.ncsa.illinois.edu/UserInfo/Resources/Hardware/DellNVIDIACluster/ Forge]
 
 == Forge Tech Summary ==
+[http://www.ncsa.illinois.edu/UserInfo/Resources/Hardware/DellNVIDIACluster/TechSummary/]
+
 We tried out CaCUDACFD3D on [http://www.ncsa.illinois.edu/UserInfo/Resources/Hardware/DellNVIDIACluster/ Forge], the latest CPU/GPU hybrid supercomputer system at NCSA.
 
 As a replacement of the previous Tesla cluster [http://www.ncsa.illinois.edu/UserInfo/Resources/Hardware/Intel64TeslaCluster/ Lincoln]. 
 Forge will combine 18 Dell PowerEdge C6145s that contain 36 nodes of dual-socket/eight-core AMD processors, with M2070 NVIDIA Fermi GPU units housed in Dell's C410x PCI expansion enclosures; there are eight Fermi units for each node, for a total of 288. Each NVIDIA M2070 provides more than 500 gigaflops of double-precision performance and 6GB of GDDR5 memory.
 
 A QDR InfiniBand interconnect fabric will interconnect the nodes; 700 terabytes of GPFS filesystem space will be provided by two Data Direct Networks SFA 10000 units. The I/O bandwidth of the system is expected to exceed 16GB/sec.
-[http://www.ncsa.illinois.edu/UserInfo/Resources/Hardware/DellNVIDIACluster/TechSummary/]
 
+== Queues on Forge ==
+{{{
+Queue            Memory CPU Time Walltime Node  Run Que Lm  State
+---------------- ------ -------- -------- ----  --- --- --  -----
+industrial         --      --    336:00:0    18   0   0 --   D S
+debug              --      --    00:30:00     4   0   0 --   E R
+wide               --      --    48:00:00    35   0   0 --   E R
+indprio            --      --    48:00:00    18   0   0 --   D S
+small              --      --    48:00:00     4   0   0 --   D S
+nomss              --      --    48:00:00    18   0   0 --   D S
+long               --      --    168:00:0    18   0   0 --   D S
+normal             --      --    12:00:00    18   2   1 --   E R
+}}}
+
+== Device Query ==
+The head node has 4 Fermi cards Tesla M2070, while each computing node has
+8 M2070. 
+{{{
+Device 0: Tesla M2070
+  Total global memory 5375.44 MB 
+  Shared memory per block: 49152 bytes
+  Number of 32 bit registers per block: 32768
+  Warp size: 32
+  Maximum memory pitch: 2.00 GB
+  Maximum number of threads per block: 1024
+  Maximum sizes of each dimension of a block: 1024 x 1024 x 64
+  Maximum sizes of each dimension of a grid: 65535 x 65535 x 65535
+  Clock rate: 1.15 GHz
+  Total constant memory size: 65536 bytes
+  CUDA capability: 2.0
+  Texture alignment: 512 bytes
+  Concurrent copy and execution: Yes
+  Number of multiprocessors: 14
+  Run time limit on kernels: No
+  Device integrated: No
+  Device can map host memory: Yes
+  Compute Mode: Normal
+  Maximum 1D texture size: 65536
+  Maximum 2D texture dimensions: 65536 x 65535
+  Maximum 3D texture dimensions: 2048 x 2048 x 2048
+  Surface alignment: 512 bytes
+  Concurrent kernel execution: Yes
+  ECC enabled: Yes
+  PCI bus ID: 86
+  PCI device ID: 0
+  TCC driver used: No
+}}}
