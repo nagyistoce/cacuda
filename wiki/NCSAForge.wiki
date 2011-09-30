@@ -52,6 +52,8 @@ Device 0: Tesla M2070
 
 == Cactus Timing for CaCUDA ==
 
+===CaCUDACFD3D running on a single GPU:===
+
 {{{
 ===================================================================================================
 Thorn           | Scheduled routine in time bin           | gettimeofday [secs] | getrusage [secs] 
